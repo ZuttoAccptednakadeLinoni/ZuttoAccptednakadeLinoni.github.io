@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>K0itoyuu</title>
+    <title>unity&amp;mvc | K0itoyuu</title>
     <meta name="author" content="K0itoyuu" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -42,7 +42,9 @@
 
 
 
-<script src="/js/lib/home.js"></script>
+
+
+
 
 <link rel="stylesheet" href="/css/main.css" />
 
@@ -152,40 +154,11 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div id="home-head">
-    <div
-        id="home-background"
-        ref="homeBackground"
-        data-images="/images/Ballsunder%20theredflag.jpg"
-    ></div>
-    <div id="home-info" @click="homeClick">
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="info">
-            <div class="wrap">
-                <h1>K0itoyuu</h1>
-                <h3></h3>
-                <h5></h5>
-            </div>
-        </span>
+            <div class="article">
+    <div>
+        <h1>unity&amp;mvc</h1>
     </div>
-</div>
-<div
-    id="home-posts-wrap"
-    ref="homePostsWrap"
-    true
->
-    <div id="home-posts">
-        
-
-<div class="post">
-    <a href="/2026/04/03/unity-mvc/">
-        <h2 class="post-title">unity&amp;mvc</h2>
-    </a>
-    <div class="category-and-date">
-        
+    <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
@@ -195,10 +168,9 @@
         
         
     </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="unity中的MVC"><a href="#unity中的MVC" class="headerlink" title="unity中的MVC"></a>unity中的MVC</h1><p>首先，什么是MVC，MVC由Model，View，Controller组成。</p>
+    
+    <div class="content" v-pre>
+        <h1 id="unity中的MVC"><a href="#unity中的MVC" class="headerlink" title="unity中的MVC"></a>unity中的MVC</h1><p>首先，什么是MVC，MVC由Model，View，Controller组成。</p>
 <p>view从Model层中获取数据，不改动Model层，接收用户的输入传给Controller层。</p>
 <p>Controller层接收并解析用户输入，更新和使用Model的数据，管理Unity的场景，不存储核心数据</p>
 <p>Model层存储游戏的数据结构与逻辑并将更新后的数据发给view</p>
@@ -477,261 +449,13 @@ public class GameManager
 </code></pre>
 <p>在Manager中控制游戏流程</p>
 
-            
-        </div>
     </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2026/04/03/unity-mvc/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2026/03/21/FairyGui%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/">
-        <h2 class="post-title">FairyGui使用笔记</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2026/3/21
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2026/03/21/FairyGui%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2026/03/10/UI/">
-        <h2 class="post-title">UI</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2026/3/10
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>UI是怎么加载出来的</p>
-<p>当游戏启动时会初始化所有挂载的组件</p>
-<p><img src="/2026/03/10/UI/image-20260308201307340.png" alt="image-20260308201307340"></p>
-<p>组件继承GameFrameworkComponent在初始化时会调用GameEntry.RegisterComponent(this);</p>
-<p><img src="/2026/03/10/UI/image-20260303211142887.png" alt="image-20260303211142887"></p>
-<p>并且注册在s_GameFrameworkComponents中</p>
-<p>通过GetComponent实现调用组件，实现改进后的单例模式</p>
-<p><img src="/2026/03/10/UI/image-20260303203609137.png" alt="image-20260303203609137"></p>
-<ol>
-<li>更好的生命周期管理</li>
-</ol>
-<p>框架通过 <code>GameEntry.RegisterComponent()</code> 统一管理组件注册 GameEntry.cs:122-144 ，避免了传统单例的懒加载可能导致的初始化顺序问题。</p>
-<h3 id="2-类型安全与泛型支持"><a href="#2-类型安全与泛型支持" class="headerlink" title="2. 类型安全与泛型支持"></a>2. 类型安全与泛型支持</h3><p>使用泛型方法 <code>GetComponent&lt;T&gt;()</code> 提供类型安全的访问 GameEntry.cs:33-36 ，相比传统单例需要类型转换更加安全。</p>
-<h3 id="3-统一的访问接口"><a href="#3-统一的访问接口" class="headerlink" title="3. 统一的访问接口"></a>3. 统一的访问接口</h3><p>所有组件都通过 <code>GameEntry</code> 静态类访问 GameEntry.cs:19-20 ，而不是每个单例都有自己的 Instance 属性，使代码更加一致。</p>
-<h3 id="4-框架级别的管理"><a href="#4-框架级别的管理" class="headerlink" title="4. 框架级别的管理"></a>4. 框架级别的管理</h3><p>底层管理器通过 <code>GameFrameworkEntry.GetModule&lt;T&gt;()</code> 获取 UIComponent.cs:154 ，实现了框架级别的统一管理。</p>
-<h3 id="5-避免内存泄漏风险"><a href="#5-避免内存泄漏风险" class="headerlink" title="5. 避免内存泄漏风险"></a>5. 避免内存泄漏风险</h3><p>传统单例容易造成内存泄漏，而框架的组件存储在链表中 GameEntry.cs:21 ，可以更好地控制生命周期。</p>
-<p>首先UI组的信息通过配置表存储</p>
-<p> &#x2F;<style>.dfobhtsecirq{zoom:67%;}</style><img src="/2026/03/10/UI/image-20260303195516669.png" class="dfobhtsecirq" alt="image-20260303195516669"></p>
-<p><img src="/2026/03/10/UI/image-20260303195651514.png" alt="image-20260303195651514"></p>
-<p>当游戏初始化时在GameEntry中获取 DataNode，DataTable，Procedure，Resource。UI等组件</p>
-<p><img src="/2026/03/10/UI/ProcedurStart.jpeg" alt="ProcedurStart"></p>
-<p>初始化游戏流程并进入ProcedureLaunch </p>
-<pre><code>protected override void OnUpdate(ProcedureOwner procedureOwner, float elapseSeconds, float realElapseSeconds)
-&#123;
-    base.OnUpdate(procedureOwner, elapseSeconds, realElapseSeconds);
-
-    ChangeState&lt;ProcedureSplash&gt;(procedureOwner);
-&#125;
-</code></pre>
-<p>在游戏模块轮询后进入ProcedureSplash再切换到ProcedurePreload加载游戏资源</p>
-<pre><code>private void PreloadResources()
-&#123;
-    // Preload configs
-    LoadConfig(&quot;DefaultConfig&quot;);
-
-    // Preload dictionaries
-    LoadDictionary(&quot;Default&quot;);
-
-    GameEntry.Data.PreLoadAllData();
-&#125;
-</code></pre>
-<pre><code>public void InitAllData()
-&#123;
-    if (m_linkedListDataInfos == null)
-        return;
-
-    if (m_linkedListDataInfos != null)
-    &#123;
-        LinkedListNode&lt;DataInfo&gt; current = m_linkedListDataInfos.First;
-        while (current != null)
-        &#123;
-            current.Value.Data.Init();
-            current = current.Next;
-        &#125;
-    &#125;
-&#125;
-</code></pre>
-<p>加载资源，</p>
-<pre><code>protected override void OnUpdate(ProcedureOwner procedureOwner, float elapseSeconds, float realElapseSeconds)
-&#123;
-    base.OnUpdate(procedureOwner, elapseSeconds, realElapseSeconds);
-
-    foreach (var item in m_LoadedFlag)
-    &#123;
-        if (!item.Value)
-            return;
-    &#125;
-
-    if (datas == null)
-        return;
-
-    foreach (var item in datas)
-    &#123;
-        if (!item.IsPreloadReady)
-            return;
-    &#125;
-
-    SetComponents();
-    procedureOwner.SetData&lt;VarInt32&gt;(Constant.ProcedureData.NextSceneId, GameEntry.Config.GetInt(&quot;Scene.Menu&quot;));
-    ChangeState&lt;ProcedureLoadingScene&gt;(procedureOwner);
-&#125;
-</code></pre>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2026/03/10/UI/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2026/03/09/My-New-Post/">
-        <h2 class="post-title">My New Post</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2026/3/9
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2026/03/09/My-New-Post/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2026/03/09/hello-world/">
-        <h2 class="post-title">Hello World</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2026/3/9
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre><code class="language-bash">$ hexo new &quot;My New Post&quot;
-</code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre><code class="language-bash">$ hexo server
-</code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre><code class="language-bash">$ hexo generate
-</code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre><code class="language-bash">$ hexo deploy
-</code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2026/03/09/hello-world/" class="go-post">阅读全文</a>
-</div>
-
-
-        <div class="page-current">
     
-    <span class="current">1</span>
     
     
     
     
-</div>
-
-    </div>
     
-    <div id="home-card">
-        <div id="card-style">
-    <div id="card-div">
-        <div class="avatar">
-            <img src="/images/photo.jpg" alt="avatar" />
-        </div>
-        <div class="name">K0itoyuu</div>
-        <div class="description">
-            <p>Description<br>眩しいDNAだけ</p>
-
-        </div>
-        
-        
-    </div>
-</div>
-
-    </div>
     
 </div>
 
@@ -763,6 +487,12 @@ public class GameManager
         
     </div>
     <script src="/js/main.js"></script>
+    
+    
+
+
+
+
     
 </body>
 </html>
