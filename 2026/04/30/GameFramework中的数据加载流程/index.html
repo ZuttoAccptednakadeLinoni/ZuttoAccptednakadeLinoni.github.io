@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Archives | K0itoyuu</title>
+    <title>GameFramework中的数据加载流程 | K0itoyuu</title>
     <meta name="author" content="K0itoyuu" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -37,6 +37,10 @@
 
 
 <script src="/js/lib/preview.js"></script>
+
+
+
+
 
 
 
@@ -150,96 +154,112 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            
-<div id="archives">
-    
-    <div id="timeline-wrap" ref="timeline">
+            <div class="article">
+    <div>
+        <h1>GameFramework中的数据加载流程</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/4/30
+        </span>
         
-        <div class="timeline" data-title="helloworld">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2026/3/9</div>
-                <a href="/2026/03/09/hello-world/">
-                    <h3>Hello World</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="mynewpost">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2026/3/9</div>
-                <a href="/2026/03/09/My-New-Post/">
-                    <h3>My New Post</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="ui">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2026/3/10</div>
-                <a href="/2026/03/10/UI/">
-                    <h3>UI</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="fairygui使用笔记">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2026/3/21</div>
-                <a href="/2026/03/21/FairyGui%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/">
-                    <h3>FairyGui使用笔记</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="unity&mvc">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2026/4/3</div>
-                <a href="/2026/04/03/unity-mvc/">
-                    <h3>unity&amp;mvc</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="gameframework中的数据加载流程">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2026/4/30</div>
-                <a href="/2026/04/30/GameFramework%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B/">
-                    <h3>GameFramework中的数据加载流程</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                </div>
-            </div>
-        </div>
         
     </div>
+    
+    <div class="content" v-pre>
+        <pre><code>namespace UnityGameFramework.Runtime
+{
+    [DisallowMultipleComponent]
+    [AddComponentMenu(&quot;Game Framework/Data&quot;)]
+    public sealed partial class DataComponent : GameFrameworkComponent
+    {
+        private IDataManager m_DataManager = null;
+
+        [HideInInspector]
+        public DataItem[] dataItems = null;
+
+        int DataCount
+        {
+            get
+            {
+                return m_DataManager.DataCount;
+            }
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            m_DataManager = GameFrameworkEntry.GetModule&lt;IDataManager&gt;();
+            if (m_DataManager == null)
+            {
+                Log.Fatal(&quot;Data manager is invalid.&quot;);
+                return;
+            }
+        }
+
+        private void Start()
+        {
+            Data[] datas = new Data[dataItems.Length];
+            for (int i = 0; i &lt; dataItems.Length; i++)
+            {
+                Type procedureType = Utility.Assembly.GetType(dataItems[i].dataTypeName);
+                if (procedureType == null)
+                {
+                    Log.Error(&quot;Can not find data type &#39;{0}&#39;.&quot;, dataItems[i].dataTypeName);
+                    return;
+                }
+
+                datas[i] = (Data)Activator.CreateInstance(procedureType);
+                if (datas[i] == null)
+                {
+                    Log.Error(&quot;Can not create data instance &#39;{0}&#39;.&quot;, dataItems[i].dataTypeName);
+                    return;
+                }
+            }
+
+            for (int i = 0; i &lt; datas.Length; i++)
+            {
+                m_DataManager.AddData(datas[i]);
+            }
+
+            m_DataManager.InitAllData();
+        }
+}
+</code></pre>
+<p>在unity中把需要初始化的数据类挂载到dataItems上</p>
+<p>在awake时获取DataManager，DataManager负责记录有哪些数据,只保存dataTypeName不保存真实数据</p>
+<p>DataComponent在Start时通过m_DataManager.InitAllData();添加到DataManager中</p>
+<p>随后调用m_DataManager.InitAllData();初始化所有（数据脚本）</p>
+<p>之后当游戏状态进入ProcedurePreload时将数据通过GameEntry.Data.PreLoadAllData();加载到（数据脚本）中</p>
+<h4 id="数据加载流程，以DataLevel为例"><a href="#数据加载流程，以DataLevel为例" class="headerlink" title="数据加载流程，以DataLevel为例"></a>数据加载流程，以DataLevel为例</h4><pre><code>protected override void OnInit()
+{
+    LevelState = EnumLevelState.None;
+    CurrentLevelIndex = NONE_LEVEL_INDEX;
+}
+</code></pre>
+<p>初始化时设置关卡状态与关卡ID</p>
+<pre><code>protected override void OnPreload()
+{
+    LoadDataTable(&quot;Level&quot;);
+}
+</code></pre>
+<p>加载名为Level的数据，同时将数据加载到DRLevel中</p>
+<p><img src="/GameFramework%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B/level.png" alt="level"></p>
+<p>DataManager的加载流程</p>
+<p><img src="/GameFramework%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B/DataMng.png" alt="DataMng"></p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
 </div>
 
             <footer id="footer">
@@ -270,6 +290,12 @@
         
     </div>
     <script src="/js/main.js"></script>
+    
+    
+
+
+
+
     
 </body>
 </html>
