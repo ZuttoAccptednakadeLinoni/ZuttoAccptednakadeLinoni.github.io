@@ -1,0 +1,276 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>unityeight | K0itoyuu</title>
+    <meta name="author" content="K0itoyuu" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/photo.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>K0ITOYUU</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;K0ITOYUU</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>unityeight</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/5/14
+        </span>
+        
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="Unity八股"><a href="#Unity八股" class="headerlink" title="Unity八股"></a>Unity八股</h1><h3 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h3><h3 id="初始化阶段"><a href="#初始化阶段" class="headerlink" title="初始化阶段"></a>初始化阶段</h3><h3 id="Awake、OnEnable、Start"><a href="#Awake、OnEnable、Start" class="headerlink" title="Awake、OnEnable、Start"></a>Awake、OnEnable、Start</h3><h5 id="1-Awake-被调用的情况可以归纳为以下三种："><a href="#1-Awake-被调用的情况可以归纳为以下三种：" class="headerlink" title="1     Awake() 被调用的情况可以归纳为以下三种："></a>1     <code>Awake()</code> 被调用的情况可以归纳为以下三种：</h5><ul>
+<li><strong>场景加载时</strong>：一个新的 Scene 被加载时，该场景中所有激活（Active）的 GameObject 上的脚本都会调用 <code>Awake()</code>。</li>
+<li><strong>物体被激活时</strong>：如果一个原本处于非激活（Inactive）状态的 GameObject 被激活，其身上脚本的 <code>Awake()</code> 会立刻被调用。</li>
+<li><strong>脚本实例化时</strong>：通过 <code>Object.Instantiate</code> 在运行时动态创建对象时，<code>Awake()</code> 会作为实例化过程的一部分被调用。</li>
+</ul>
+<h5 id="2-只要满足以下-任一条件，OnEnable-就会被触发："><a href="#2-只要满足以下-任一条件，OnEnable-就会被触发：" class="headerlink" title="2     只要满足以下 任一条件，OnEnable() 就会被触发："></a>2     只要满足以下 <strong>任一条件</strong>，<code>OnEnable()</code> 就会被触发：</h5><ul>
+<li><strong>场景加载且对象激活</strong><br>场景首次加载时，对于已激活的 GameObject，会先执行 <code>Awake()</code>，紧接着执行 <code>OnEnable()</code>。</li>
+<li><strong>GameObject 由非激活变为激活</strong><br>调用 <code>SetActive(true)</code> 后，该对象及其身上所有脚本的 <code>OnEnable()</code> 都会被调用。</li>
+<li><strong>脚本组件由禁用变为启用</strong><br>将某个脚本组件的 <code>enabled</code> 属性设为 <code>true</code>（或取消勾选后重新勾选），<strong>只有该脚本</strong>的 <code>OnEnable()</code> 会被触发，不影响同一对象上的其他脚本。</li>
+<li><strong>动态实例化且初始处于激活状态</strong><br>用 <code>Instantiate</code> 创建新物体时，如果预制体的初始状态为激活，则新实例会依次调用 <code>Awake()</code> 和 <code>OnEnable()</code>。</li>
+</ul>
+<blockquote>
+<p><strong>关键特性：可重复调用</strong><br>与 <code>Awake</code> 在整个生命周期只执行一次不同，<code>OnEnable</code> 在每次启用时都会被调用。只要对象&#x2F;组件禁用了再启用，它就会再次执行。</p>
+</blockquote>
+<h5 id="3-Start-会在脚本首次启用后的-Update-之前被调用，并且只会执行一次。"><a href="#3-Start-会在脚本首次启用后的-Update-之前被调用，并且只会执行一次。" class="headerlink" title="3    Start 会在脚本首次启用后的 Update 之前被调用，并且只会执行一次。"></a>3    <code>Start</code> 会在<strong>脚本首次启用后的 <code>Update</code> 之前</strong>被调用，并且<strong>只会执行一次</strong>。</h5><ul>
+<li>在第一帧Update之前调用（仅一次）</li>
+<li>适合其他<strong>组件完成初始化后</strong>的设置</li>
+</ul>
+<p>例如，根据另一个脚本中初始化的变量来设置自己的初始状态。</p>
+<p><strong>Update()</strong></p>
+<ul>
+<li>每帧调用一次（不固定时间间隔）</li>
+<li>适合游戏逻辑、输入处理</li>
+</ul>
+<p><strong>LateUpdate()</strong></p>
+<ul>
+<li>在所有Update之后调用</li>
+<li>适合摄像机跟随等需要最后调整的逻辑</li>
+</ul>
+<p><strong>OnDestroy()</strong></p>
+<ul>
+<li>对象被销毁前调用</li>
+<li>适合释放资源、清理引用</li>
+</ul>
+<h3 id="委托是什么-event-关键字有什么用？"><a href="#委托是什么-event-关键字有什么用？" class="headerlink" title="委托是什么? event 关键字有什么用？"></a>委托是什么? <a target="_blank" rel="noopener" href="https://zhida.zhihu.com/search?content_id=218171174&content_type=Article&match_order=1&q=event+%E5%85%B3%E9%94%AE%E5%AD%97&zhida_source=entity">event 关键字</a>有什么用？</h3><p>委托&#x3D;&#x3D;函数指针，event&#x3D;&#x3D;无返回值的委托</p>
+<h3 id="Unity-协程、线程与进程的区别"><a href="#Unity-协程、线程与进程的区别" class="headerlink" title="Unity 协程、线程与进程的区别"></a>Unity 协程、线程与进程的区别</h3><ul>
+<li><strong>进程</strong>：操作系统分配资源的基本单元，一个进程可包含多个线程。</li>
+<li><strong>线程</strong>：CPU 调度的基本单元，同一进程内的线程共享内存资源。</li>
+<li><strong>Unity 线程模型</strong>：大部分 Unity API 和脚本逻辑运行在主线程，底层渲染、Job System、Burst 等会利用工作线程，因此 Unity 并非完全单线程，但脚本默认在主线程执行。</li>
+<li><strong>协程（Coroutine）</strong>：运行在主线程上的分时机制，不创建新线程。协程在 <code>yield return</code> 时挂起、条件满足时恢复，适合把耗时任务拆成多帧或定时执行。</li>
+<li>协程特点：<ul>
+<li>不涉及线程同步或加锁问题，能直接访问 Unity 主线程 API。</li>
+<li>同一时间只会执行某个协程片段，适合分步或定时逻辑。</li>
+<li>不是并行线程，无法利用多核并行。</li>
+</ul>
+</li>
+</ul>
+<h3 id="摄像机有几种模式，成像原理分别是什么？"><a href="#摄像机有几种模式，成像原理分别是什么？" class="headerlink" title="摄像机有几种模式，成像原理分别是什么？"></a>摄像机有几种模式，成像原理分别是什么？</h3><p>2 透视模式   正交模式</p>
+<h3 id="Canvas-有几种模式"><a href="#Canvas-有几种模式" class="headerlink" title="Canvas 有几种模式"></a>Canvas 有几种模式</h3><p>​	覆盖模式 摄像机模式 世界空间模式</p>
+<h3 id="c-中能否多继承父类"><a href="#c-中能否多继承父类" class="headerlink" title="c#中能否多继承父类"></a>c#中能否多继承父类</h3><p>在 C# 中，<strong>不可以</strong>多继承（即一个类同时继承多个父类）。C# 只支持<strong>单继承</strong>——一个类只能有一个直接基类。</p>
+<p>不过，C# 通过其他机制提供了多继承的部分能力：</p>
+<ul>
+<li><strong>接口多实现</strong>：一个类可以实现多个接口，从而获得多种“契约”行为。</li>
+<li><strong>默认接口方法</strong>（C# 8.0+）：接口可以包含默认实现，进一步缩小了与多重继承的差距。</li>
+<li><strong>组合&#x2F;依赖注入</strong>：通过包含其他类的实例来复用功能，这是更推荐的做法。</li>
+</ul>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2026 K0itoyuu
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;K0itoyuu
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

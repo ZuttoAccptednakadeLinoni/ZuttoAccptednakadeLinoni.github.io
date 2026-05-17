@@ -181,6 +181,172 @@
         
 
 <div class="post">
+    <a href="/2026/05/17/unityLocalization/">
+        <h2 class="post-title">unityLocalization</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/5/17
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h3 id="unity中的本地化"><a href="#unity中的本地化" class="headerlink" title="unity中的本地化"></a>unity中的本地化</h3><p>首先为Text组件添加LocalizeText并输入key</p>
+<p><img src="/2026/05/17/unityLocalization/Loc.png" alt="Loc"></p>
+<p>使用json配置字典</p>
+<p>[</p>
+<p> {</p>
+<p>  “language”: “ChineseSimplified”,</p>
+<p>  “dic”: {</p>
+<p>   “QUIT”: “退出”,</p>
+<p>  }</p>
+<p> }</p>
+<p>]</p>
+<h2 id="加载流程"><a href="#加载流程" class="headerlink" title="加载流程"></a>加载流程</h2><p>在游戏启动流程中，<code>ProcedureCheckResources</code> 会检查资源，确保其在进入主菜单前已就绪。</p>
+<pre><code>protected override void OnEnter(ProcedureOwner procedureOwner)
+{
+
+    base.OnEnter(procedureOwner);
+    initResourceComplete = false;
+
+    GameEntry.Resource.InitResources(OnInitResourceComplete);
+}
+</code></pre>
+<p>在 <code>ProcedureLaunch</code> 阶段，系统会根据当前语言设置初始化资源变体。</p>
+<pre><code>private void InitLanguageSettings()
+{
+    if (GameEntry.Base.EditorResourceMode &amp;&amp; GameEntry.Base.EditorLanguage != Language.Unspecified)
+    {
+        // 编辑器资源模式直接使用 Inspector 上设置的语言
+        GameEntry.Setting.SetInt(Constant.Setting.Language, (int)GameEntry.Base.EditorLanguage);
+        GameEntry.Setting.Save();
+        return;
+    }
+
+    Language language = (Language)GameEntry.Setting.GetInt(Constant.Setting.Language, (int)Language.English);
+
+    if (language != Language.English
+        &amp;&amp; language != Language.ChineseSimplified
+        &amp;&amp; language != Language.ChineseTraditional)
+    {
+        // 若是暂不支持的语言，则使用英语
+        language = Language.English;
+
+        GameEntry.Setting.SetString(Constant.Setting.Language, language.ToString());
+        GameEntry.Setting.Save();
+    }
+
+    GameEntry.Localization.Language = language;
+
+    Log.Info(&quot;Init language settings complete, current language is &#39;{0}&#39;.&quot;, language.ToString());
+}
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        
+        
+    </div>
+    <a href="/2026/05/17/unityLocalization/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2026/05/14/unityeight/">
+        <h2 class="post-title">unityeight</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/5/14
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="Unity八股"><a href="#Unity八股" class="headerlink" title="Unity八股"></a>Unity八股</h1><h3 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h3><h3 id="初始化阶段"><a href="#初始化阶段" class="headerlink" title="初始化阶段"></a>初始化阶段</h3><h3 id="Awake、OnEnable、Start"><a href="#Awake、OnEnable、Start" class="headerlink" title="Awake、OnEnable、Start"></a>Awake、OnEnable、Start</h3><h5 id="1-Awake-被调用的情况可以归纳为以下三种："><a href="#1-Awake-被调用的情况可以归纳为以下三种：" class="headerlink" title="1     Awake() 被调用的情况可以归纳为以下三种："></a>1     <code>Awake()</code> 被调用的情况可以归纳为以下三种：</h5><ul>
+<li><strong>场景加载时</strong>：一个新的 Scene 被加载时，该场景中所有激活（Active）的 GameObject 上的脚本都会调用 <code>Awake()</code>。</li>
+<li><strong>物体被激活时</strong>：如果一个原本处于非激活（Inactive）状态的 GameObject 被激活，其身上脚本的 <code>Awake()</code> 会立刻被调用。</li>
+<li><strong>脚本实例化时</strong>：通过 <code>Object.Instantiate</code> 在运行时动态创建对象时，<code>Awake()</code> 会作为实例化过程的一部分被调用。</li>
+</ul>
+<h5 id="2-只要满足以下-任一条件，OnEnable-就会被触发："><a href="#2-只要满足以下-任一条件，OnEnable-就会被触发：" class="headerlink" title="2     只要满足以下 任一条件，OnEnable() 就会被触发："></a>2     只要满足以下 <strong>任一条件</strong>，<code>OnEnable()</code> 就会被触发：</h5><ul>
+<li><strong>场景加载且对象激活</strong><br>场景首次加载时，对于已激活的 GameObject，会先执行 <code>Awake()</code>，紧接着执行 <code>OnEnable()</code>。</li>
+<li><strong>GameObject 由非激活变为激活</strong><br>调用 <code>SetActive(true)</code> 后，该对象及其身上所有脚本的 <code>OnEnable()</code> 都会被调用。</li>
+<li><strong>脚本组件由禁用变为启用</strong><br>将某个脚本组件的 <code>enabled</code> 属性设为 <code>true</code>（或取消勾选后重新勾选），<strong>只有该脚本</strong>的 <code>OnEnable()</code> 会被触发，不影响同一对象上的其他脚本。</li>
+<li><strong>动态实例化且初始处于激活状态</strong><br>用 <code>Instantiate</code> 创建新物体时，如果预制体的初始状态为激活，则新实例会依次调用 <code>Awake()</code> 和 <code>OnEnable()</code>。</li>
+</ul>
+<blockquote>
+<p><strong>关键特性：可重复调用</strong><br>与 <code>Awake</code> 在整个生命周期只执行一次不同，<code>OnEnable</code> 在每次启用时都会被调用。只要对象&#x2F;组件禁用了再启用，它就会再次执行。</p>
+</blockquote>
+<h5 id="3-Start-会在脚本首次启用后的-Update-之前被调用，并且只会执行一次。"><a href="#3-Start-会在脚本首次启用后的-Update-之前被调用，并且只会执行一次。" class="headerlink" title="3    Start 会在脚本首次启用后的 Update 之前被调用，并且只会执行一次。"></a>3    <code>Start</code> 会在<strong>脚本首次启用后的 <code>Update</code> 之前</strong>被调用，并且<strong>只会执行一次</strong>。</h5><ul>
+<li>在第一帧Update之前调用（仅一次）</li>
+<li>适合其他<strong>组件完成初始化后</strong>的设置</li>
+</ul>
+<p>例如，根据另一个脚本中初始化的变量来设置自己的初始状态。</p>
+<p><strong>Update()</strong></p>
+<ul>
+<li>每帧调用一次（不固定时间间隔）</li>
+<li>适合游戏逻辑、输入处理</li>
+</ul>
+<p><strong>LateUpdate()</strong></p>
+<ul>
+<li>在所有Update之后调用</li>
+<li>适合摄像机跟随等需要最后调整的逻辑</li>
+</ul>
+<p><strong>OnDestroy()</strong></p>
+<ul>
+<li>对象被销毁前调用</li>
+<li>适合释放资源、清理引用</li>
+</ul>
+<h3 id="委托是什么-event-关键字有什么用？"><a href="#委托是什么-event-关键字有什么用？" class="headerlink" title="委托是什么? event 关键字有什么用？"></a>委托是什么? <a target="_blank" rel="noopener" href="https://zhida.zhihu.com/search?content_id=218171174&content_type=Article&match_order=1&q=event+%E5%85%B3%E9%94%AE%E5%AD%97&zhida_source=entity">event 关键字</a>有什么用？</h3><p>委托&#x3D;&#x3D;函数指针，event&#x3D;&#x3D;无返回值的委托</p>
+<h3 id="Unity-协程、线程与进程的区别"><a href="#Unity-协程、线程与进程的区别" class="headerlink" title="Unity 协程、线程与进程的区别"></a>Unity 协程、线程与进程的区别</h3><ul>
+<li><strong>进程</strong>：操作系统分配资源的基本单元，一个进程可包含多个线程。</li>
+<li><strong>线程</strong>：CPU 调度的基本单元，同一进程内的线程共享内存资源。</li>
+<li><strong>Unity 线程模型</strong>：大部分 Unity API 和脚本逻辑运行在主线程，底层渲染、Job System、Burst 等会利用工作线程，因此 Unity 并非完全单线程，但脚本默认在主线程执行。</li>
+<li><strong>协程（Coroutine）</strong>：运行在主线程上的分时机制，不创建新线程。协程在 <code>yield return</code> 时挂起、条件满足时恢复，适合把耗时任务拆成多帧或定时执行。</li>
+<li>协程特点：<ul>
+<li>不涉及线程同步或加锁问题，能直接访问 Unity 主线程 API。</li>
+<li>同一时间只会执行某个协程片段，适合分步或定时逻辑。</li>
+<li>不是并行线程，无法利用多核并行。</li>
+</ul>
+</li>
+</ul>
+<h3 id="摄像机有几种模式，成像原理分别是什么？"><a href="#摄像机有几种模式，成像原理分别是什么？" class="headerlink" title="摄像机有几种模式，成像原理分别是什么？"></a>摄像机有几种模式，成像原理分别是什么？</h3><p>2 透视模式   正交模式</p>
+<h3 id="Canvas-有几种模式"><a href="#Canvas-有几种模式" class="headerlink" title="Canvas 有几种模式"></a>Canvas 有几种模式</h3><p>​	覆盖模式 摄像机模式 世界空间模式</p>
+<h3 id="c-中能否多继承父类"><a href="#c-中能否多继承父类" class="headerlink" title="c#中能否多继承父类"></a>c#中能否多继承父类</h3><p>在 C# 中，<strong>不可以</strong>多继承（即一个类同时继承多个父类）。C# 只支持<strong>单继承</strong>——一个类只能有一个直接基类。</p>
+<p>不过，C# 通过其他机制提供了多继承的部分能力：</p>
+<ul>
+<li><strong>接口多实现</strong>：一个类可以实现多个接口，从而获得多种“契约”行为。</li>
+<li><strong>默认接口方法</strong>（C# 8.0+）：接口可以包含默认实现，进一步缩小了与多重继承的差距。</li>
+<li><strong>组合&#x2F;依赖注入</strong>：通过包含其他类的实例来复用功能，这是更推荐的做法。</li>
+</ul>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        
+        
+    </div>
+    <a href="/2026/05/14/unityeight/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2026/04/30/GameFramework-Data/">
         <h2 class="post-title">GameFramework中的数据加载流程</h2>
     </a>

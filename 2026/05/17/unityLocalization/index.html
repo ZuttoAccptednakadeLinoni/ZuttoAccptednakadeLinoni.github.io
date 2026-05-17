@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Archives | K0itoyuu</title>
+    <title>unityLocalization | K0itoyuu</title>
     <meta name="author" content="K0itoyuu" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -37,6 +37,10 @@
 
 
 <script src="/js/lib/preview.js"></script>
+
+
+
+
 
 
 
@@ -150,124 +154,81 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            
-<div id="archives">
-    
-    <div id="timeline-wrap" ref="timeline">
+            <div class="article">
+    <div>
+        <h1>unityLocalization</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/5/17
+        </span>
         
-        <div class="timeline" data-title="helloworld">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2026/3/9</div>
-                <a href="/2026/03/09/hello-world/">
-                    <h3>Hello World</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="mynewpost">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2026/3/9</div>
-                <a href="/2026/03/09/My-New-Post/">
-                    <h3>My New Post</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="ui">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2026/3/10</div>
-                <a href="/2026/03/10/UI/">
-                    <h3>UI</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="fairygui使用笔记">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2026/3/21</div>
-                <a href="/2026/03/21/FairyGui%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/">
-                    <h3>FairyGui使用笔记</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="unity&mvc">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2026/4/3</div>
-                <a href="/2026/04/03/unity-mvc/">
-                    <h3>unity&amp;mvc</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="gameframework中的数据加载流程">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2026/4/30</div>
-                <a href="/2026/04/30/GameFramework-Data/">
-                    <h3>GameFramework中的数据加载流程</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="unityeight">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2026/5/14</div>
-                <a href="/2026/05/14/unityeight/">
-                    <h3>unityeight</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="unitylocalization">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2026/5/17</div>
-                <a href="/2026/05/17/unityLocalization/">
-                    <h3>unityLocalization</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                </div>
-            </div>
-        </div>
         
     </div>
+    
+    <div class="content" v-pre>
+        <h3 id="unity中的本地化"><a href="#unity中的本地化" class="headerlink" title="unity中的本地化"></a>unity中的本地化</h3><p>首先为Text组件添加LocalizeText并输入key</p>
+<p><img src="/2026/05/17/unityLocalization/Loc.png" alt="Loc"></p>
+<p>使用json配置字典</p>
+<p>[</p>
+<p> {</p>
+<p>  “language”: “ChineseSimplified”,</p>
+<p>  “dic”: {</p>
+<p>   “QUIT”: “退出”,</p>
+<p>  }</p>
+<p> }</p>
+<p>]</p>
+<h2 id="加载流程"><a href="#加载流程" class="headerlink" title="加载流程"></a>加载流程</h2><p>在游戏启动流程中，<code>ProcedureCheckResources</code> 会检查资源，确保其在进入主菜单前已就绪。</p>
+<pre><code>protected override void OnEnter(ProcedureOwner procedureOwner)
+{
+
+    base.OnEnter(procedureOwner);
+    initResourceComplete = false;
+
+    GameEntry.Resource.InitResources(OnInitResourceComplete);
+}
+</code></pre>
+<p>在 <code>ProcedureLaunch</code> 阶段，系统会根据当前语言设置初始化资源变体。</p>
+<pre><code>private void InitLanguageSettings()
+{
+    if (GameEntry.Base.EditorResourceMode &amp;&amp; GameEntry.Base.EditorLanguage != Language.Unspecified)
+    {
+        // 编辑器资源模式直接使用 Inspector 上设置的语言
+        GameEntry.Setting.SetInt(Constant.Setting.Language, (int)GameEntry.Base.EditorLanguage);
+        GameEntry.Setting.Save();
+        return;
+    }
+
+    Language language = (Language)GameEntry.Setting.GetInt(Constant.Setting.Language, (int)Language.English);
+
+    if (language != Language.English
+        &amp;&amp; language != Language.ChineseSimplified
+        &amp;&amp; language != Language.ChineseTraditional)
+    {
+        // 若是暂不支持的语言，则使用英语
+        language = Language.English;
+
+        GameEntry.Setting.SetString(Constant.Setting.Language, language.ToString());
+        GameEntry.Setting.Save();
+    }
+
+    GameEntry.Localization.Language = language;
+
+    Log.Info(&quot;Init language settings complete, current language is &#39;{0}&#39;.&quot;, language.ToString());
+}
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
 </div>
 
             <footer id="footer">
@@ -298,6 +259,12 @@
         
     </div>
     <script src="/js/main.js"></script>
+    
+    
+
+
+
+
     
 </body>
 </html>
